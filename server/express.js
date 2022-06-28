@@ -20,7 +20,7 @@ const pgp = PgPromise({});
 const db = pgp(process.env.DATABASE_URL);
 // const db = pgp(DATABASE_URL);
 API(app, db);
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 2000;
 // API routes to be added here
 app.get('/', async function(req, res) {
     console.log({})
