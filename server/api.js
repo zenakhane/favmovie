@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { default: playlists } = require('../client/app');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
@@ -55,19 +56,33 @@ module.exports = function (app, db) {
 
 
     app.post('/api/playlist', async function (req, res) {
-        try {
-            const { user, password } = req.body
-            const users = await db.manyOrNone(`select * from favmovie `)
-            console.log(user)
-            res.json({
-                users
+     
+            const {
+                movieName,
+                img,
+                
+            } = req.body;
 
-            })
-        } catch (error) {
-            console.log(error);
-            res.json({ error })
-        }
-    });
+        if (!movieName || !img) {
+                res.json({
+                    status: 'error',
+                    message: 'Not enough info',
+                });
+            } else {
+                playlist.push({
+                    movieName,
+                    img,
+                });
+    
+                res.json({
+                    status: 'success',
+                    message: 'New movie added',
+                });
+            }
+        
+        });
+
+
 
     function verifyToken(req, res, next) {
         const bearerHeader = req.headers['authorization'];
