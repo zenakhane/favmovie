@@ -1,16 +1,12 @@
 import axios from 'axios';
 
 export default function playlists() {
-
-
     return {
         userLogin: "",
         passLogin: "",
         movielist: [],
         movieDisplay: '',
-        logUser() { 
-            
-        
+        logUser() {
         },
         getList() {
             axios
@@ -24,5 +20,4 @@ export default function playlists() {
                 .catch(error => console.log(error))
         }
     }
-
 }
