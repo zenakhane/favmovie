@@ -23,8 +23,7 @@ module.exports = function (app, db) {
     app.post('/api/login', async function (req, res) {
         try {
             const { username, password } = req.body
-
-            const users = await db.manyOrNone(`select * from users `)
+            const userN = `insert into users (username,password) values ($1,$2) `
             console.log(username)
             res.json({
                 users
