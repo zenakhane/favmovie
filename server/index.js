@@ -8,6 +8,7 @@ const API = require('./api');
 const { default: axios } = require('axios');
 const cors = require('cors')
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));

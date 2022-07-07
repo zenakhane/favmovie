@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { default: playlists } = require('../client/app');
+const { json } = require('express');
+// const { default: playlists } = require('../client/app');
 const saltRounds = 10;
 const myPlaintextPassword = 's0/\/\P4$$w0rD';
 const someOtherPlaintextPassword = 'not_bacon';
@@ -23,11 +24,18 @@ module.exports = function (app, db) {
     app.post('/api/login', async function (req, res) {
         try {
             const { username, password } = req.body
-            const userN = `insert into users (username,password) values ($1,$2) `
+            const userN = await db.oneOrNone(`select username from users where username= $1 and password = $2 `,[username,password])
             console.log(username)
+           if(userN){
             res.json({
-                users
+                status: "success"
             })
+           }
+           else{
+               res.json({
+                   status: "Unknown entry"
+               })
+           }
         } catch (error) {
             console.log(error);
             res.json({ error })
@@ -41,9 +49,7 @@ module.exports = function (app, db) {
             const salt = await bcrypt.genSalt(10);
             const hashpassword = await bcrypt.hash(password, salt);
 
-            const userN = `insert into users (username,password) values ($1,$2) `
-            await db.manyOrNone(userN, [username, hashpassword]),
-                username
+             await db.oneOrNone(`insert into users (username,password) values ($1,$2)`,[username,password])
 
                 res.json({
                   status:  "success"
